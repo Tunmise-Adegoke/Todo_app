@@ -1,17 +1,54 @@
+import 'package:equatable/equatable.dart';
 
-class Tasks {
-  final String name;
-  bool isDone = false;
-  final DateTime createdTime;
-  Tasks({required this.name, required this.isDone, required this.createdTime});
+// ignore: must_be_immutable
+class Tasks extends Equatable {
+  final String title;
+  bool? isDone;
+  bool? isDeleted;
 
+  
 
+  Tasks({
+    required this.title,
+    this.isDone,
+    this.isDeleted,
+  }) {
+    isDone = isDone ?? false;
+    isDeleted = isDeleted ?? false;
+  }
 
-//   void toggleDone(){
-//     isDone = !isDone;
-//   }
-}
+  Tasks copyWith({
+    String? title,
+    bool? isDone,
+    bool? isDeleted,
+  }) {
+    return Tasks(
+      title: title ?? this.title,
+      isDone: isDone ?? this.isDone,
+      isDeleted: isDeleted ?? this.isDeleted,
+    );
+  }
 
-class TasksField {
-  static const createdTime = 'createdTime';
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'title': title,
+      'isDone': isDone,
+      'isDeleted': isDeleted,
+    };
+  }
+
+  factory Tasks.fromMap(Map<String, dynamic> map) {
+    return Tasks(
+      title: map['title'] ?? '',
+      isDone: map['isDone'],
+      isDeleted: map['isDeleted'],
+    );
+  }
+
+  @override
+  List<Object?> get props => [
+        title,
+        isDone,
+        isDeleted,
+      ];
 }
